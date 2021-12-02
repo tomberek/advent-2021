@@ -19,8 +19,8 @@ rayon = "1.5.1"
 
 [profile.dev]
 incremental = true
-opt-level = 1
+opt-level = 3
 
 [profile.release]
-debug = true
+debug = false
 
