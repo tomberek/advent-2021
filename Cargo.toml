@@ -16,9 +16,9 @@ aocf = "0.1.13"
 itertools = "0.10.1"
 time = "0.3.5"
 rayon = "1.5.1"
+bitvec = "0.22.3"
 
 [profile.dev]
-incremental = true
 opt-level = 3
 
 [profile.release]
