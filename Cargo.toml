@@ -26,6 +26,15 @@ derive_more = "0.99.16"
 ndarray = "0.15.4"
 packed_simd = { version = "0.3.4",package = "packed_simd_2"}
 core_simd = { git = "https://github.com/rust-lang/portable-simd" }
+criterion = "0.3"
+
+[dev-dependencies]
+criterion = "0.3"
+
+[[bench]]
+name = "aoc"
+path = "src/day05.rs"
+harness = false
 
 [profile.dev]
 opt-level = 3

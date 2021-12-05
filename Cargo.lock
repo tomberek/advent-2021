@@ -45,6 +45,7 @@ dependencies = [
  "bit-array",
  "bitvec",
  "core_simd",
+ "criterion",
  "derive_more",
  "itertools",
  "nalgebra",
