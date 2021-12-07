@@ -3,7 +3,9 @@
 // use rayon::prelude::*;
 // use bitvec::prelude::*;
 
-aoc_harness_macros::aoc_main!(2021 day 3, generator parse_input, [part1], [part2]);
+aoc_harness_macros::aoc_main!(2021 day 3, generator parse_input,
+    [part1] => 4001724,
+    [part2] => 587895);
 
 type V = (Vec<u32>,usize);
 fn parse_input(input: &str) -> V {

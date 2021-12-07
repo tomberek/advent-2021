@@ -1,9 +1,10 @@
-// use itertools::Itertools;
-// use std::collections::HashSet;
-// use rayon::prelude::*;
+use text_io::scan;
 
-aoc_harness_macros::aoc_main!(2021 day 2, generator parse_input, [part1], [part2]);
+aoc_harness_macros::aoc_main!(2021 day 2, generator parse_input,
+    [part1] => 2117664,
+    [part2] => 2073416724);
 
+#[derive(Debug)]
 enum Direction {
     Forward,
     Down,
@@ -12,14 +13,14 @@ enum Direction {
 
 fn parse_input(input: &str) -> Vec<(Direction,u32)> {
     input.lines().map(|x| {
-        let line : Vec<&str> = x.split(' ').collect();
-        let dir = match line[0] {
+        let dir: String; let n: u32;
+        scan!(x.bytes() => "{} {}",dir,n);
+        let dir = match dir.as_str() {
             "forward" => Direction::Forward,
             "down"    => Direction::Down,
             "up"      => Direction::Up,
-            _         => unreachable!(),
+            _         => panic!(),
         };
-        let n = line[1].parse().unwrap();
         (dir,n)
     }).collect()
 }

@@ -5,7 +5,6 @@
 // use ndarray::Array2;
 use text_io::scan;
 use packed_simd::*;
-//use core_simd::*;
 
 aoc_harness_macros::aoc_main!(2021 day 5,
     generator parse_input,

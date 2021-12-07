@@ -5,7 +5,9 @@
 // use bitvec::prelude::*;
 // use ndarray::Array2;
 
-aoc_harness_macros::aoc_main!(2021 day 4, generator parse_input, [part1] => 58838, [part2] => 6256);
+aoc_harness_macros::aoc_main!(2021 day 4, generator parse_input,
+    [part1] => 58838,
+    [part2] => 6256);
 
 #[derive(Debug,Clone)]
 pub struct Board {
@@ -41,16 +43,19 @@ fn parse_input(input: &str) -> Game {
        for row in 0..5 {
            let line = arr.next().unwrap();
            index.push([None;100]);
-           b.board[row].copy_from_slice(&line.split_whitespace().enumerate().map(|(column,x)|{
+           b.board[row]
+               .copy_from_slice(&line.split_whitespace()
+               .enumerate()
+               .map(|(column,x)|{
                    let num = x.parse().unwrap();
                    index[bnum as usize][num as usize]=Some((row,column));
                    num
-                   }
-                   ).collect::<Vec<i8>>()[..]);
+               }).collect::<Vec<i8>>()[..]);
+
            b.board_t.iter_mut().enumerate().for_each(|(r,row)|{
                row.iter_mut().enumerate().for_each(|(c,item)|
                    *item = b.board[c][r]
-               )});
+           )});
        }
        boards.push(b);
        bnum +=1;
@@ -103,8 +108,8 @@ fn score(board:&[[i8;5];5]) -> u32{
     board.into_iter().flatten()
         .filter(|x|**x>0).map(|&x|x as u32).sum::<u32>()
 }
+// Only check in the row in which a value changed
 fn winning(board: &[[i8;5];5],row: usize) -> bool {
-    //board.iter().any(|r|r.iter().all(|&b|b<0))
     board[row].iter().all(|&b|b<0)
 }
 
