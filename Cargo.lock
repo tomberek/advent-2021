@@ -58,7 +58,7 @@ dependencies = [
 [[package]]
 name = "aoc_harness"
 version = "0.1.0"
-source = "git+https://github.com/tocklime/aoc-rs#18699d49e732d4ae06a2672dcdb3d3ac5cec7862"
+source = "git+https://github.com/tocklime/aoc-rs?rev=1908fdba3872d6ec8cf9a9cf44f6f47a90e95287#1908fdba3872d6ec8cf9a9cf44f6f47a90e95287"
 dependencies = [
  "aoc_harness_macros",
  "aocf",
@@ -74,7 +74,7 @@ dependencies = [
 [[package]]
 name = "aoc_harness_macros"
 version = "0.1.0"
-source = "git+https://github.com/tocklime/aoc-rs#18699d49e732d4ae06a2672dcdb3d3ac5cec7862"
+source = "git+https://github.com/tocklime/aoc-rs?rev=1908fdba3872d6ec8cf9a9cf44f6f47a90e95287#1908fdba3872d6ec8cf9a9cf44f6f47a90e95287"
 dependencies = [
  "aoc_harness_macros_impl",
  "proc-macro2",
@@ -85,7 +85,7 @@ dependencies = [
 [[package]]
 name = "aoc_harness_macros_impl"
 version = "0.1.0"
-source = "git+https://github.com/tocklime/aoc-rs#18699d49e732d4ae06a2672dcdb3d3ac5cec7862"
+source = "git+https://github.com/tocklime/aoc-rs?rev=1908fdba3872d6ec8cf9a9cf44f6f47a90e95287#1908fdba3872d6ec8cf9a9cf44f6f47a90e95287"
 dependencies = [
  "aocf",
  "itertools",
@@ -667,7 +667,7 @@ checksum = "0ab1bc2a289d34bd04a330323ac98a1b4bc82c9d9fcb1e66b63caa84da26b575"
 [[package]]
 name = "packed_simd_2"
 version = "0.3.6"
-source = "git+https://github.com/rust-lang/packed_simd#b47552659401299a2023e7f408316bfe2dd4476d"
+source = "git+https://github.com/rust-lang/packed_simd?rev=b47552659401299a2023e7f408316bfe2dd4476d#b47552659401299a2023e7f408316bfe2dd4476d"
 dependencies = [
  "cfg-if",
  "libm",
@@ -1223,7 +1223,7 @@ dependencies = [
 [[package]]
 name = "utils"
 version = "0.1.0"
-source = "git+https://github.com/tocklime/aoc-rs#18699d49e732d4ae06a2672dcdb3d3ac5cec7862"
+source = "git+https://github.com/tocklime/aoc-rs?rev=1908fdba3872d6ec8cf9a9cf44f6f47a90e95287#1908fdba3872d6ec8cf9a9cf44f6f47a90e95287"
 dependencies = [
  "arrayvec",
  "modinverse",

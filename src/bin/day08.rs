@@ -3,10 +3,10 @@
 // use slice_deque::*;
 
 aoc_harness_macros::aoc_main!(2021 day 8, generator parse_input,
-    [solve1] => 421,
-    [solve2] => 986163,
-    example part 1 SAMPLE => 26,
-    example part 2 SAMPLE => 61229,
+    part1 [solve1] => 421,
+    part2 [solve2] => 986163,
+    example part1 SAMPLE => 26,
+    example part2 SAMPLE => 61229,
     //bench
     );
 

@@ -1,12 +1,8 @@
-// use text_io::scan;
-// use packed_simd::*;
-// use slice_deque::*;
-
 aoc_harness_macros::aoc_main!(2021 day 7, generator parse_input,
-    [solve1] => 337488,
-    [solve2] => 89647695,
-    example part 1 SAMPLE => 37,
-    example part 2 SAMPLE => 168,
+    part1 [solve1] => 337488,
+    part2 [solve2] => 89647695,
+    example part1 SAMPLE => 37,
+    example part2 SAMPLE => 168,
     //bench
     );
 
@@ -20,10 +16,16 @@ fn parse_input(input: &str) -> Vec<Crab> {
     // positions.iter().for_each(|&x|crabs[x] += 1);
     // crabs
 }
+fn median(numbers: &mut [Crab]) -> Crab {
+    numbers.sort();
+    let mid = numbers.len() / 2;
+    numbers[mid]
+}
 
 fn solve1(input: &[Crab]) -> usize {
-    let max = input.iter().max().unwrap();
-    (0..max+1).map(|pos|{
+    let i : &mut [Crab]= &mut input.to_vec();
+    let pos = median(i);
+    (pos..pos+2).map(|pos|{
         input.iter().map(|&i| (i as isize - pos as isize ).abs() as usize).sum::<usize>()
     }).min().unwrap()
 }

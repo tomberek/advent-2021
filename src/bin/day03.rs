@@ -1,11 +1,9 @@
-// use itertools::Itertools;
-// use std::collections::HashSet;
-// use rayon::prelude::*;
-// use bitvec::prelude::*;
-
 aoc_harness_macros::aoc_main!(2021 day 3, generator parse_input,
-    [part1] => 4001724,
-    [part2] => 587895);
+    part1 [part1] => 4001724,
+    part2 [part2] => 587895,
+    example part1 SAMPLE => 198,
+    example part2 SAMPLE => 230,
+    );
 
 type V = (Vec<u32>,usize);
 fn parse_input(input: &str) -> V {
@@ -54,15 +52,7 @@ fn part2(input: &V) -> u32 {
     oxy * co2
 }
 
-#[cfg(test)]
-mod tests { // {{{
-    use crate::parse_input;
-    use crate::part1;
-    use crate::part2;
-type V = (Vec<u32>,usize);
-    #[test]
-    pub fn test1() {
-    let sample: V = parse_input(
+const SAMPLE: &str = 
 "00100
 11110
 10110
@@ -75,27 +65,4 @@ type V = (Vec<u32>,usize);
 11001
 00010
 01010
-");
-
-        assert_eq!(part1(&sample), 198)
-    }
-
-    #[test]
-    pub fn test2() {
-    let sample: V = parse_input(
-"00100
-11110
-10110
-10111
-10101
-01111
-00111
-11100
-10000
-11001
-00010
-01010
-");
-        assert_eq!(part2(&sample), 230)
-    }
-} // }}}
+";

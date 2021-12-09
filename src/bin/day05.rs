@@ -1,18 +1,13 @@
-// use itertools::Itertools;
-// use std::collections::HashSet;
-// use std::collections::HashMap;
-// use rayon::prelude::*;
-// use ndarray::Array2;
 use text_io::scan;
 use packed_simd::*;
 
 aoc_harness_macros::aoc_main!(2021 day 5,
     generator parse_input,
-    [solve1] => 4745,
-    [solve2a,solve2b] => 18442,
+    part1 [solve1] => 4745,
+    part2 [solve2a,solve2b] => 18442,
     // [solve2b] => 18442,
-    example part 1 SAMPLE => 5,
-    example part 2 SAMPLE => 12,
+    example part1 SAMPLE => 5,
+    example part2 SAMPLE => 12,
     // bench
     );
 
@@ -185,24 +180,3 @@ pub const SAMPLE : &str =
 3,4 -> 1,4
 0,0 -> 8,8
 5,5 -> 8,2";
-
-#[cfg(test)]
-mod tests { // {{{
-    use crate::parse_input;
-    use crate::solve1;
-    use crate::solve2;
-    use crate::SAMPLE;
-
-    #[test]
-    pub fn test1() {
-        let sample = parse_input(SAMPLE);
-        assert_eq!(solve1(&sample), 5)
-    }
-
-    #[test]
-    pub fn test2() {
-        let sample = parse_input(SAMPLE);
-        assert_eq!(solve2(&sample), 12)
-    }
-
-} // }}}

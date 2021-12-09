@@ -1,13 +1,9 @@
-// use itertools::Itertools;
-// use std::collections::HashSet;
-// use std::collections::HashMap;
-// use rayon::prelude::*;
-// use bitvec::prelude::*;
-// use ndarray::Array2;
-
 aoc_harness_macros::aoc_main!(2021 day 4, generator parse_input,
-    [part1] => 58838,
-    [part2] => 6256);
+    part1 [part1] => 58838,
+    part2 [part2] => 6256,
+    example part1 SAMPLE => 4512,
+    example part2 SAMPLE => 1924,
+);
 
 #[derive(Debug,Clone)]
 pub struct Board {
@@ -113,16 +109,7 @@ fn winning(board: &[[i8;5];5],row: usize) -> bool {
     board[row].iter().all(|&b|b<0)
 }
 
-#[cfg(test)]
-mod tests { // {{{
-    use crate::parse_input;
-    use crate::part1;
-    use crate::part2;
-    use crate::Game;
-
-    #[test]
-    pub fn test1() {
-    let sample: Game = parse_input(
+const SAMPLE: &str = 
 "7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,6,15,25,12,22,18,20,8,19,3,26,1
 
 22 13 17 11  0
@@ -142,37 +129,4 @@ mod tests { // {{{
 18  8 23 26 20
 22 11 13  6  5
  2  0 12  3  7
-");
-
-        assert_eq!(part1(&sample), 4512)
-    }
-
-
-    #[test]
-    pub fn test2() {
-    let sample: Game = parse_input(
-"7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,6,15,25,12,22,18,20,8,19,3,26,1
-
-22 13 17 11  0
- 8  2 23  4 24
-21  9 14 16  7
- 6 10  3 18  5
- 1 12 20 15 19
-
- 3 15  0  2 22
- 9 18 13 17  5
-19  8  7 25 23
-20 11 10 24  4
-14 21 16 12  6
-
-14 21 17 24  4
-10 16 15  9 19
-18  8 23 26 20
-22 11 13  6  5
- 2  0 12  3  7
-");
-
-        assert_eq!(part2(&sample), 1924)
-    }
-
-} // }}}
+";

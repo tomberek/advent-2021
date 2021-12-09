@@ -1,8 +1,11 @@
 use text_io::scan;
 
 aoc_harness_macros::aoc_main!(2021 day 2, generator parse_input,
-    [part1] => 2117664,
-    [part2] => 2073416724);
+    part1 [part1] => 2117664,
+    part2 [part2] => 2073416724,
+    example part1 SAMPLE => 150,
+    example part2 SAMPLE => 900,
+    );
 
 #[derive(Debug)]
 enum Direction {
@@ -47,27 +50,36 @@ fn part2(input: &[(Direction,u32)]) -> u32 {
     res.0 * res.1
 }
 
-#[cfg(test)]
-mod tests { // {{{
-    use crate::parse_input;
-    use crate::part1;
-    use crate::part2;
-    const SAMPLE: Vec<(Direction,u32)> = &parse_input(
+const SAMPLE: &str =
 "forward 5
 down 5
 forward 8
 up 3
 down 8
 forward 2
-");
+";
 
-    #[test]
-    pub fn test1() {
-        assert_eq!(part1(SAMPLE), 150)
-    }
+// #[cfg(test)]
+// mod tests { // {{{
+//     use crate::parse_input;
+//     use crate::part1;
+//     use crate::part2;
+//     const SAMPLE: Vec<(Direction,u32)> = &parse_input(
+// "forward 5
+// down 5
+// forward 8
+// up 3
+// down 8
+// forward 2
+// ");
 
-    #[test]
-    pub fn test2() {
-        assert_eq!(part2(SAMPLE), 900)
-    }
-} // }}}
+//     #[test]
+//     pub fn test1() {
+//         assert_eq!(part1(SAMPLE), 150)
+//     }
+
+//     #[test]
+//     pub fn test2() {
+//         assert_eq!(part2(SAMPLE), 900)
+//     }
+// } // }}}
