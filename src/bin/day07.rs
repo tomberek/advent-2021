@@ -22,7 +22,8 @@ fn parse_input(input: &str) -> Vec<Crab> {
 }
 
 fn solve1(input: &[Crab]) -> usize {
-    (0..input.len()).map(|pos|{
+    let max = input.iter().max().unwrap();
+    (0..max+1).map(|pos|{
         input.iter().map(|&i| (i as isize - pos as isize ).abs() as usize).sum::<usize>()
     }).min().unwrap()
 }
