@@ -6,7 +6,8 @@ edition = "2021"
 [dependencies]
 utils = {git = "https://github.com/tocklime/aoc-rs" ,rev="1908fdba3872d6ec8cf9a9cf44f6f47a90e95287"}
 aoc_harness_macros = {git = "https://github.com/tocklime/aoc-rs", rev="1908fdba3872d6ec8cf9a9cf44f6f47a90e95287"}
-aoc_harness = {git = "https://github.com/tocklime/aoc-rs", rev="1908fdba3872d6ec8cf9a9cf44f6f47a90e95287"}
+#aoc_harness = {git = "https://github.com/tocklime/aoc-rs", rev="1908fdba3872d6ec8cf9a9cf44f6f47a90e95287"}
+aoc_harness = {git = "https://github.com/tomberek/aoc-rs", rev="797c3259877dadc60ab5981b303140908881da08"}
 #aoc_harness = {path = "/home/tom/aoc/aoc-rs/aoc_harness"}
 sscanf = "0.1.3"
 structopt = "0.3"

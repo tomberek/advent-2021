@@ -40,7 +40,7 @@ name = "aoc2021"
 version = "0.1.0"
 dependencies = [
  "aoc_harness",
- "aoc_harness_macros",
+ "aoc_harness_macros 0.1.0 (git+https://github.com/tocklime/aoc-rs?rev=1908fdba3872d6ec8cf9a9cf44f6f47a90e95287)",
  "aocf",
  "itertools",
  "ndarray",
@@ -58,9 +58,9 @@ dependencies = [
 [[package]]
 name = "aoc_harness"
 version = "0.1.0"
-source = "git+https://github.com/tocklime/aoc-rs?rev=1908fdba3872d6ec8cf9a9cf44f6f47a90e95287#1908fdba3872d6ec8cf9a9cf44f6f47a90e95287"
+source = "git+https://github.com/tomberek/aoc-rs?rev=797c3259877dadc60ab5981b303140908881da08#797c3259877dadc60ab5981b303140908881da08"
 dependencies = [
- "aoc_harness_macros",
+ "aoc_harness_macros 0.1.0 (git+https://github.com/tomberek/aoc-rs?rev=797c3259877dadc60ab5981b303140908881da08)",
  "aocf",
  "criterion",
  "itertools",
@@ -76,7 +76,18 @@ name = "aoc_harness_macros"
 version = "0.1.0"
 source = "git+https://github.com/tocklime/aoc-rs?rev=1908fdba3872d6ec8cf9a9cf44f6f47a90e95287#1908fdba3872d6ec8cf9a9cf44f6f47a90e95287"
 dependencies = [
- "aoc_harness_macros_impl",
+ "aoc_harness_macros_impl 0.1.0 (git+https://github.com/tocklime/aoc-rs?rev=1908fdba3872d6ec8cf9a9cf44f6f47a90e95287)",
+ "proc-macro2",
+ "structopt",
+ "syn",
+]
+
+[[package]]
+name = "aoc_harness_macros"
+version = "0.1.0"
+source = "git+https://github.com/tomberek/aoc-rs?rev=797c3259877dadc60ab5981b303140908881da08#797c3259877dadc60ab5981b303140908881da08"
+dependencies = [
+ "aoc_harness_macros_impl 0.1.0 (git+https://github.com/tomberek/aoc-rs?rev=797c3259877dadc60ab5981b303140908881da08)",
  "proc-macro2",
  "structopt",
  "syn",
@@ -86,6 +97,20 @@ dependencies = [
 name = "aoc_harness_macros_impl"
 version = "0.1.0"
 source = "git+https://github.com/tocklime/aoc-rs?rev=1908fdba3872d6ec8cf9a9cf44f6f47a90e95287#1908fdba3872d6ec8cf9a9cf44f6f47a90e95287"
+dependencies = [
+ "aocf",
+ "itertools",
+ "proc-macro2",
+ "quote",
+ "structopt",
+ "syn",
+ "time",
+]
+
+[[package]]
+name = "aoc_harness_macros_impl"
+version = "0.1.0"
+source = "git+https://github.com/tomberek/aoc-rs?rev=797c3259877dadc60ab5981b303140908881da08#797c3259877dadc60ab5981b303140908881da08"
 dependencies = [
  "aocf",
  "itertools",

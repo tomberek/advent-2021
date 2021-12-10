@@ -10,7 +10,6 @@ aoc_harness_macros::aoc_main!(2021 day 9, generator parse_input,
     part2 [solve2] => 1317792,
     example part1 SAMPLE => 15,
     example part2 SAMPLE => 1134,
-    //bench
     );
 
 type Line = Vec<i8>;
@@ -64,7 +63,7 @@ fn solve2(input:&Input) -> usize {
             basins.push(b);
             queue.clear();
     });
-    basins.pop().unwrap() * basins.pop().unwrap() * basins.pop().unwrap()
+    (0..3).flat_map(|_| basins.pop()).product()
 }
 
 fn solve1(input:&Input) -> usize {
