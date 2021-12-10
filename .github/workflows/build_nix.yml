@@ -12,4 +12,6 @@ jobs:
       - name: aoc
         run: |
           nix build
+          touch .aocf/cookie
+          touch .aocf/config
           time ./result/bin/all -b

@@ -32,13 +32,9 @@ fn solve2(input:&Input) -> usize {
                 '>' => {q.pop_front().and_then(|p|(p!=4).then(||{corrupt=true;}));},
                 _ => unreachable!(),
             }
-            if corrupt {
-                break
-            }
+            if corrupt { break }
         }
-        (!corrupt && q.len() > 0).then(||
-            q.iter().fold(0,|acc,x|acc*5 + x
-            ))
+        (!corrupt && q.len() > 0).then(|| q.iter().fold(0,|acc,x|acc*5 + x))
     }).collect::<Vec<_>>();
     // faster discovery center value
     // p.sort_unstable();

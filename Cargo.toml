@@ -14,7 +14,7 @@ structopt = "0.3"
 aocf = "0.1.13"
 itertools = "0.10.1"
 time = "0.3.5"
-#rayon = "1.5.1"
+rayon = "1.5.1"
 typenum = "1.14.0"
 ndarray = "0.15.4"
 packed_simd = { package = "packed_simd_2", git = "https://github.com/rust-lang/packed_simd", rev ="b47552659401299a2023e7f408316bfe2dd4476d"}

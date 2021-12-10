@@ -45,6 +45,7 @@ dependencies = [
  "itertools",
  "ndarray",
  "packed_simd_2",
+ "rayon",
  "seq-macro",
  "slice-deque",
  "sscanf",
