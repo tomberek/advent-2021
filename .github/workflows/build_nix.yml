@@ -14,4 +14,10 @@ jobs:
           nix build
           touch .aocf/cookie
           touch .aocf/config
-          time ./result/bin/all -b
+          pwd
+          ls -alh
+          ls ..
+          RUST_BACKTRACE=1 ./result/bin/day01 -b
+          RUST_BACKTRACE=1 strace -f ./result/bin/day01 -b
+          cat .aocf/cache/aoc2021_07.json
+          RUST_BACKTRACE=1 strace -f ./result/bin/day07 -b
