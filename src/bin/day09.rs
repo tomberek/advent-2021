@@ -45,8 +45,8 @@ fn solve2(input:&Input) -> usize {
             visited[item]=-1;
             while let Some((j,i)) = queue.pop_front() {
                 b +=1;
-                [ (j-1,i),
-                  (j,i-1),
+                [ (j.wrapping_sub(1),i),
+                  (j,i.wrapping_sub(1)),
                   (j,i+1),
                   (j+1,i),
                 ].iter()
@@ -77,8 +77,8 @@ fn check(i: isize,j:isize,input: &Input) -> Option<i8> {
     if pos == 9 {
         return None
     }
-    [ (j-1,i),
-      (j,i-1),
+    [ (j.wrapping_sub(1),i),
+      (j,i.wrapping_sub(1)),
       (j,i+1),
       (j+1,i),
     ].iter()
