@@ -9,6 +9,7 @@ aoc_harness_macros::aoc_main!(2021 day 11, generator parse_input,
     part2 [solve2] => 788,
     example part1 SAMPLE => 1656,
     example part2 SAMPLE => 195,
+    example part1 SAMPLE2 => 259,
     );
 
 type Input = Array2<i8>;

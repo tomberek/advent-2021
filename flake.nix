@@ -14,7 +14,7 @@
   };
 
   outputs = { self, nixpkgs, utils, naersk, mozillapkgs, dream2nix }@inputs:
-    utils.lib.eachDefaultSystem (system: let
+    utils.lib.eachSystem ["x86_64-linux"] (system: let
       pkgs = nixpkgs.legacyPackages."${system}";
 
       # Get a specific rust version
@@ -37,7 +37,9 @@
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
 
       # Nixpkgs instantiated for supported system types.
-      nixpkgsFor = forAllSystems (system: import nixpkgs { inherit system; overlays = [ self.overlay ]; });
+      nixpkgsFor = forAllSystems (system: import nixpkgs { inherit system; 
+        # overlays = [ self.overlay ];
+      });
 
 
       dream2nix = inputs.dream2nix.lib.init {
@@ -56,6 +58,17 @@
       # defaultPackage = packages.my-project;
       defaultPackage = packages.my-project;
 
+      checks = with nixpkgsFor.${system}; {
+        all = runCommand "all" {buildInputs = [strace];} ''
+          cp -r ${self}/.aocf .
+          chmod +w .aocf
+          ls -alh
+          touch .aocf/cookie
+          touch .aocf/config
+          strace -f ${defaultPackage}/bin/day01
+        '';
+      };
+
       # `nix run`
       apps.my-project = utils.lib.mkApp {
         drv = packages.my-project;
@@ -66,6 +79,7 @@
       devShell = pkgs.mkShell {
         # supply the specific rust version
         nativeBuildInputs = [ rust ];
+        buildInputs = [ pkgs.pkg-config pkgs.openssl ];
         shellHook = ''
           export PS1='\[\033[1;33m\][\w]\$\[\033[0m\] '
           asm(){
