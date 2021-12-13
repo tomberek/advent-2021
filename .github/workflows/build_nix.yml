@@ -10,18 +10,19 @@ jobs:
       - uses: actions/checkout@v2
       - uses: cachix/install-nix-action@v15
       - uses: Swatinem/rust-cache@v1
-      - name: aoc
+      - name: aoc-cargo
         env:
           AOC_SESSION: ${{ secrets.AOC_SESSION }}
         run: |
           cargo run --bin all
+      - name: aoc-cargo-release
+        env:
+          AOC_SESSION: ${{ secrets.AOC_SESSION }}
+        run: |
+          cargo run --release --bin all
+      - name: aoc-nix
+        env:
+          AOC_SESSION: ${{ secrets.AOC_SESSION }}
+        run: |
           nix build
-          touch .aocf/cookie
-          touch .aocf/config
-          pwd
-          ls -alh
-          ls ..
-          RUST_BACKTRACE=1 ./result/bin/day01 -b
-          RUST_BACKTRACE=1 strace -f ./result/bin/day01 -b
-          cat .aocf/cache/aoc2021_07.json
-          RUST_BACKTRACE=1 strace -f ./result/bin/day07 -b
+          time ./result/bin/all -b
