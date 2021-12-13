@@ -4,25 +4,53 @@ on:
   push:
 
 jobs:
-  build:
+  cargo:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: cachix/install-nix-action@v15
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: nightly
       - uses: Swatinem/rust-cache@v1
       - name: aoc-cargo
         env:
           AOC_SESSION: ${{ secrets.AOC_SESSION }}
         run: |
-          cargo run --bin all
+          nix develop --command cargo run --bin all
+
+
+  cargo-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: cachix/install-nix-action@v15
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: nightly
+      - uses: Swatinem/rust-cache@v1
       - name: aoc-cargo-release
         env:
           AOC_SESSION: ${{ secrets.AOC_SESSION }}
         run: |
-          cargo run --release --bin all
+          nix develop --command cargo run --release --bin all
+
+  nix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: cachix/install-nix-action@v15
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: nightly
+      - uses: Swatinem/rust-cache@v1
       - name: aoc-nix
         env:
           AOC_SESSION: ${{ secrets.AOC_SESSION }}
         run: |
           nix build
+          time ./result/bin/all -b
           time ./result/bin/all -b
