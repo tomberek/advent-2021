@@ -13,12 +13,14 @@ jobs:
         with:
           profile: minimal
           toolchain: nightly
+          default: true
       - uses: Swatinem/rust-cache@v1
       - name: aoc-cargo
         env:
           AOC_SESSION: ${{ secrets.AOC_SESSION }}
         run: |
           nix develop --command cargo run --bin all
+          cargo run --bin all
 
 
   cargo-release:
