@@ -2,7 +2,8 @@ use text_io::scan;
 // use packed_simd::*;
 //use std::collections::HashMap;
 use itertools::Itertools;
-use rayon::prelude::*;
+//use rayon::prelude::*;
+use packed_simd::*;
 // use ndarray::prelude::*;
 
 aoc_harness_macros::aoc_main!(2021 day 14, generator parse_input,
@@ -15,8 +16,9 @@ aoc_harness_macros::aoc_main!(2021 day 14, generator parse_input,
 type Rules = [u8;26*32];
 struct Input {
     rules: Rules,
-    start: [isize;26*32],
+    start: [I;26*32],
 }
+type I = i64;
 
 fn parse_input(input: &str) -> Input {
     let mut lines = input.split("\n\n");
@@ -30,7 +32,7 @@ fn parse_input(input: &str) -> Input {
         let t : &[u8;1] = to.as_bytes().try_into().expect("bad size");
         rules[((f[1] as usize - 65)*32) + (f[0] as usize - 65)]=t[0] - 65;
     });
-    let mut totals : [isize;26*32] = [0;26*32];
+    let mut totals : [I;26*32] = [0;26*32];
     start.chars().tuple_windows().map(|(a,b)|a.to_string()+&b.to_string()).for_each(|key|{
         let f : &[u8;2] = key.as_bytes().try_into().expect("bad size");
         let key = ((f[1] as u16 - 65)*32) + (f[0] as u16 - 65);
@@ -47,29 +49,34 @@ fn solve2(input:&Input) -> usize {
 }
 fn solve(Input{rules,start}:&Input,iter:usize) -> usize {
     let mut totals = start.clone();
-    let mut round: [isize;26*32] = [0;26*32];
+    let mut round : [I;26*32] = [0;26*32];
     (0..iter).for_each(|_|{
         totals.iter().enumerate().filter(|(_,&v)|v>0).for_each(|(key,val)|{
             let new_key = rules[key as usize];
-            round[((key as u16 & 0x001F) + ((new_key as u16)*32)) as usize]+=val;
-            round[((new_key as u16) + (key as u16 & 0xFFE0)) as usize]+=val;
+            round[((key as usize & 0x001F) + ((new_key as usize)*32))]+=val;
+            round[((new_key as usize) + (key as usize & 0xFFE0))]+=val;
             round[key as usize] -= val;
         });
-        round.iter().enumerate().filter(|(_,&v)|v!=0).for_each(|(key,val)|{
-            totals[key as usize]+=val;
+        const STEPS : usize = 8;
+        round.chunks_exact(STEPS).enumerate().for_each(|(ix,step)|{
+            let simd1 = i64x8::from_slice_unaligned(step);
+            let simd2 = i64x8::from_slice_unaligned(&totals[STEPS*ix..]);
+            (simd1+simd2).write_to_slice_unaligned(&mut totals[STEPS*ix..]);
         });
         round.fill(0);
     });
     let mut m = [0;32];
     for (key,val) in totals.iter().enumerate() {
         m[key/32] += val;
-        m[key&0x1F] += val;
+        //m[key&0x1F] += val;
     }
-    let max = m.iter().enumerate().max_by_key(|(_, v)| *v).map(|(_, v)| v).unwrap();
-    let min = m.iter().enumerate().filter(|(_,&v)|v>0).min_by_key(|(_, v)| *v).map(|(_, v)| v).unwrap();
-    // println!("max: {:?}",max);
-    // println!("min: {:?}",min);
-    return (*max - *min + 1) as usize >>1
+    let mut max = 0;
+    let mut min = I::MAX;
+    m.iter().for_each(|&v|{
+        if v > max { max = v;};
+        if v > 0 && v < min { min = v;};
+    });
+    return (max - min ) as usize
 }
 
 pub const SAMPLE: &str =
