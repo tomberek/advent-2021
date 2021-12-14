@@ -6,14 +6,15 @@ use itertools::Itertools;
 use packed_simd::*;
 // use ndarray::prelude::*;
 
-aoc_harness_macros::aoc_main!(2021 day 14, generator parse_input,
+aoc_harness::aoc_main!(2021 day 14, generator parse_input,
     part1 [solve1] => 3587,
     part2 [solve2] => 3906445077999,
     example part1 SAMPLE => 1588,
     example part2 SAMPLE => 2188189693529,
     );
 
-type Rules = [u8;26*32];
+//type Rules = [u8;26*32];
+type Rules = Vec<(u16,u8)>;
 struct Input {
     rules: Rules,
     start: [I;26*32],
@@ -23,14 +24,16 @@ type I = i64;
 fn parse_input(input: &str) -> Input {
     let mut lines = input.split("\n\n");
     let start = lines.next().unwrap().to_string();
-    let mut rules : Rules = [0;26*32];
+    //let mut rules : Rules = [0;26*32];
+    let mut rules : Rules = Vec::new();
     lines.next().unwrap().lines().for_each(|x|{
         let from :String;
         let to :String;
         scan!(x.bytes() => "{} -> {}",from,to);
         let f : &[u8;2] = from.as_bytes().try_into().expect("bad size");
         let t : &[u8;1] = to.as_bytes().try_into().expect("bad size");
-        rules[((f[1] as usize - 65)*32) + (f[0] as usize - 65)]=t[0] - 65;
+        //rules[((f[1] as usize - 65)*32) + (f[0] as usize - 65)]=t[0] - 65;
+        rules.push((((f[1] as u16 - 65)*32) + (f[0] as u16 - 65),t[0] - 65));
     });
     let mut totals : [I;26*32] = [0;26*32];
     start.chars().tuple_windows().map(|(a,b)|a.to_string()+&b.to_string()).for_each(|key|{
@@ -51,12 +54,18 @@ fn solve(Input{rules,start}:&Input,iter:usize) -> usize {
     let mut totals = start.clone();
     let mut round : [I;26*32] = [0;26*32];
     (0..iter).for_each(|_|{
-        totals.iter().enumerate().filter(|(_,&v)|v>0).for_each(|(key,val)|{
-            let new_key = rules[key as usize];
-            round[((key as usize & 0x001F) + ((new_key as usize)*32))]+=val;
-            round[((new_key as usize) + (key as usize & 0xFFE0))]+=val;
-            round[key as usize] -= val;
+        rules.iter().for_each(|(key,new_key)|{
+            let val = totals[*key as usize];
+            round[((*key as usize & 0x001F) + ((*new_key as usize)*32))]+=val;
+            round[((*new_key as usize) + (*key as usize & 0xFFE0))]+=val;
+            round[*key as usize] -= val;
         });
+        // totals.iter().enumerate().filter(|(_,&v)|v>0).for_each(|(key,val)|{
+        //     let new_key = rules[key as usize];
+        //     round[((key as usize & 0x001F) + ((new_key as usize)*32))]+=val;
+        //     round[((new_key as usize) + (key as usize & 0xFFE0))]+=val;
+        //     round[key as usize] -= val;
+        // });
         const STEPS : usize = 8;
         round.chunks_exact(STEPS).enumerate().for_each(|(ix,step)|{
             let simd1 = i64x8::from_slice_unaligned(step);

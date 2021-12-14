@@ -1,7 +1,7 @@
 use std::collections::VecDeque;
 use itertools::Itertools;
 
-aoc_harness_macros::aoc_main!(2021 day 10, generator parse_input,
+aoc_harness::aoc_main!(2021 day 10, generator parse_input,
     part1 [solve1] => 290691,
     part2 [solve2] => 2768166558,
     example part1 SAMPLE => 26397,

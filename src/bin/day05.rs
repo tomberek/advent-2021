@@ -1,7 +1,7 @@
 use text_io::scan;
 use packed_simd::*;
 
-aoc_harness_macros::aoc_main!(2021 day 5,
+aoc_harness::aoc_main!(2021 day 5,
     generator parse_input,
     part1 [solve1] => 4745,
     part2 [solve2a,solve2b] => 18442,

@@ -4,7 +4,7 @@ use std::collections::VecDeque;
 use ndarray::prelude::*;
 //use std::sync::atomic::{AtomicUsize, Ordering};
 
-aoc_harness_macros::aoc_main!(2021 day 11, generator parse_input,
+aoc_harness::aoc_main!(2021 day 11, generator parse_input,
     part1 [solve1] => 1683,
     part2 [solve2] => 788,
     example part1 SAMPLE => 1656,

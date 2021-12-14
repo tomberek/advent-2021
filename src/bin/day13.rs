@@ -1,7 +1,7 @@
 use text_io::scan;
 use ndarray::*;
 
-aoc_harness_macros::aoc_main!(2021 day 13, generator parse_input,
+aoc_harness::aoc_main!(2021 day 13, generator parse_input,
     part1 [solve1] => 788,
     part2 [solve2] ,
     example part1 SAMPLE => 17,

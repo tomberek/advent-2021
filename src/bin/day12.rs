@@ -3,7 +3,7 @@
 use std::collections::HashMap;
 // use ndarray::prelude::*;
 
-aoc_harness_macros::aoc_main!(2021 day 12, generator parse_input,
+aoc_harness::aoc_main!(2021 day 12, generator parse_input,
     part1 [solve1] => 3856,
     part2 [solve2] => 116692,
     example part1 SAMPLE1 => 10,

@@ -12,15 +12,16 @@
         "poetry2nix": "poetry2nix"
       },
       "locked": {
-        "lastModified": 1638980949,
-        "narHash": "sha256-VVGfT+pKrFHTWENihmiV7uEwozXaFa3A/E4fQ1lj4EA=",
-        "owner": "davhau",
+        "lastModified": 1639504136,
+        "narHash": "sha256-qn4S6/OLdz2U40VAcpAkQ9iUnUcaAuJNf2K+1Z4wprI=",
+        "owner": "yusdacra",
         "repo": "dream2nix",
-        "rev": "d6087424063a0a0964d99a3fd7dc2cbd3eb658e7",
+        "rev": "9cdfb1f7321d0b706f22df16f0ddf7f39427a7cd",
         "type": "github"
       },
       "original": {
-        "owner": "davhau",
+        "owner": "yusdacra",
+        "ref": "fix/build-rust-package",
         "repo": "dream2nix",
         "type": "github"
       }

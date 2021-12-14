@@ -1,4 +1,4 @@
-aoc_harness_macros::aoc_main!(2021 day 1, generator parse_input,
+aoc_harness::aoc_main!(2021 day 1, generator parse_input,
     part1 [solve1] => 1446,
     part2 [solve2] => 1486,
     example part1 SAMPLE => 7,

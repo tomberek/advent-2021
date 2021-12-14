@@ -8,7 +8,8 @@
     };
 
     dream2nix = {
-      url = "github:davhau/dream2nix";
+      # url = "github:davhau/dream2nix";
+      url = "github:yusdacra/dream2nix/fix/build-rust-package";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -56,7 +57,12 @@
         root = ./.;
       };
       # defaultPackage = packages.my-project;
-      defaultPackage = packages.my-project;
+      defaultPackage = (dream2nix.riseAndShine {
+        source = builtins.path {
+          name = "source";
+          path = ./.;
+        };
+      }).defaultPackage.${system};
 
       checks = with nixpkgsFor.${system}; {
         all = runCommand "all" {buildInputs = [strace];} ''

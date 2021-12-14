@@ -1,6 +1,6 @@
 use text_io::scan;
 
-aoc_harness_macros::aoc_main!(2021 day 2, generator parse_input,
+aoc_harness::aoc_main!(2021 day 2, generator parse_input,
     part1 [part1] => 2117664,
     part2 [part2] => 2073416724,
     example part1 SAMPLE => 150,

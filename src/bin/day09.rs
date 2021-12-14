@@ -5,7 +5,7 @@ use std::collections::VecDeque;
 use std::collections::BinaryHeap;
 use ndarray::prelude::*;
 
-aoc_harness_macros::aoc_main!(2021 day 9, generator parse_input,
+aoc_harness::aoc_main!(2021 day 9, generator parse_input,
     part1 [solve1] => 436,
     part2 [solve2] => 1317792,
     example part1 SAMPLE => 15,

@@ -2,7 +2,7 @@
 // use packed_simd::*;
 // use slice_deque::*;
 
-aoc_harness_macros::aoc_main!(2021 day 8, generator parse_input,
+aoc_harness::aoc_main!(2021 day 8, generator parse_input,
     part1 [solve1] => 421,
     part2 [solve2] => 986163,
     example part1 SAMPLE => 26,
