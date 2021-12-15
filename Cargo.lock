@@ -43,7 +43,7 @@ dependencies = [
 [[package]]
 name = "aoc_harness"
 version = "0.1.0"
-source = "git+https://github.com/tocklime/aoc-rs?rev=4bd3fa62c7da491c8405511215c451f0a3e41d83#4bd3fa62c7da491c8405511215c451f0a3e41d83"
+source = "git+https://github.com/tocklime/aoc-rs#4bd3fa62c7da491c8405511215c451f0a3e41d83"
 dependencies = [
  "aoc_harness_macros",
  "dotenv",
@@ -59,7 +59,7 @@ dependencies = [
 [[package]]
 name = "aoc_harness_macros"
 version = "0.1.0"
-source = "git+https://github.com/tocklime/aoc-rs?rev=4bd3fa62c7da491c8405511215c451f0a3e41d83#4bd3fa62c7da491c8405511215c451f0a3e41d83"
+source = "git+https://github.com/tocklime/aoc-rs#4bd3fa62c7da491c8405511215c451f0a3e41d83"
 dependencies = [
  "aoc_harness_macros_impl",
  "proc-macro2",
@@ -70,7 +70,7 @@ dependencies = [
 [[package]]
 name = "aoc_harness_macros_impl"
 version = "0.1.0"
-source = "git+https://github.com/tocklime/aoc-rs?rev=4bd3fa62c7da491c8405511215c451f0a3e41d83#4bd3fa62c7da491c8405511215c451f0a3e41d83"
+source = "git+https://github.com/tocklime/aoc-rs#4bd3fa62c7da491c8405511215c451f0a3e41d83"
 dependencies = [
  "itertools",
  "proc-macro2",

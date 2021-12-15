@@ -54,13 +54,13 @@
       # `nix build`
       packages.my-project = naersk-lib.buildPackage {
         pname = "my-project";
-        root = ./.;
+        root = self;
       };
       # defaultPackage = packages.my-project;
       defaultPackage = (dream2nix.riseAndShine {
         source = builtins.path {
           name = "source";
-          path = ./.;
+          path = self;
         };
       }).defaultPackage.${system};
 
