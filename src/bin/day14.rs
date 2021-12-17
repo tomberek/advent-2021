@@ -52,27 +52,18 @@ fn solve2(input:&Input) -> usize {
 }
 fn solve(Input{rules,start}:&Input,iter:usize) -> usize {
     let mut totals = start.clone();
-    let mut round : [I;26*32] = [0;26*32];
+    // let round : [I;26*32] = [0;26*32];
+
+    //let lookup : [I;26*32] = [0;26*32];
+
     (0..iter).for_each(|_|{
+        let mut new_round : [I;26*32] = [0;26*32];
         rules.iter().for_each(|(key,new_key)|{
             let val = totals[*key as usize];
-            round[((*key as usize & 0x001F) + ((*new_key as usize)*32))]+=val;
-            round[((*new_key as usize) + (*key as usize & 0xFFE0))]+=val;
-            round[*key as usize] -= val;
+            new_round[((*key as usize & 0x001F) + ((*new_key as usize)*32))]+=val;
+            new_round[((*new_key as usize) + (*key as usize & 0xFFE0))]+=val;
         });
-        // totals.iter().enumerate().filter(|(_,&v)|v>0).for_each(|(key,val)|{
-        //     let new_key = rules[key as usize];
-        //     round[((key as usize & 0x001F) + ((new_key as usize)*32))]+=val;
-        //     round[((new_key as usize) + (key as usize & 0xFFE0))]+=val;
-        //     round[key as usize] -= val;
-        // });
-        const STEPS : usize = 8;
-        round.chunks_exact(STEPS).enumerate().for_each(|(ix,step)|{
-            let simd1 = i64x8::from_slice_unaligned(step);
-            let simd2 = i64x8::from_slice_unaligned(&totals[STEPS*ix..]);
-            (simd1+simd2).write_to_slice_unaligned(&mut totals[STEPS*ix..]);
-        });
-        round.fill(0);
+        totals = new_round;
     });
     let mut m = [0;32];
     for (key,val) in totals.iter().enumerate() {
