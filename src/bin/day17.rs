@@ -32,7 +32,7 @@ fn parse_input(input: &str) -> Area {
 const AX :usize = 0;
 const AY :usize = 1;
 const BX :usize = 2;
-const BY :usize = 3;
+// const BY :usize = 3;
 
 fn step( input: &mut Particle) {
     let [px,py,vx,vy]=input;

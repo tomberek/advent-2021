@@ -1,4 +1,3 @@
-#![feature(explicit_generic_args_with_impl_trait)]
 //use std::collections::VecDeque;
 
 aoc_harness::aoc_main!(2021 day 16, generator parse_input,

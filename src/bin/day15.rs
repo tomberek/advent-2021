@@ -91,8 +91,9 @@ fn neighbors(input: &Input, pos: Position) -> impl Iterator<Item=Position> {
     .filter(move |x| x.0 < size[0] && x.1 < size[1])
 }
 
-fn l(input: &Input,pos: Position) -> usize{
-    let size = input.dim();
+#[allow(dead_code)]
+fn l(_: &Input,_: Position) -> usize{
+    //let size = input.dim();
     0
     // ((size.0-pos.0) + (size.1-pos.1))
 }

@@ -85,7 +85,10 @@
       devShell = pkgs.mkShell {
         # supply the specific rust version
         nativeBuildInputs = [ rust ];
-        buildInputs = [ pkgs.pkg-config pkgs.openssl ];
+        buildInputs = [ pkgs.pkg-config pkgs.openssl
+        pkgs.openblas
+        pkgs.gfortran.cc.lib
+      ];
         shellHook = ''
           export PS1='\[\033[1;33m\][\w]\$\[\033[0m\] '
           asm(){

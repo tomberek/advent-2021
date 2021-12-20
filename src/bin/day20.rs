@@ -21,14 +21,17 @@ fn parse_input(input: &str) -> Input {
         line.chars().map(|x|x=='#').collect()
     }).collect::<Vec<Vec<_>>>();
 
-    return (line,Matrix::new(grid.len(),grid[0].len(),grid.iter().flatten().copied().collect::<Vec<_>>()))
+    return (line,Matrix::new(grid.len(),grid[0].len(),grid.into_iter().flatten().collect::<Vec<_>>()))
 }
+
 fn solve1(input:&Input) -> usize {
     solve(input,2)
 }
+
 fn solve2(input:&Input) -> usize {
     solve(input,50)
 }
+
 fn solve((line,grid):&Input,iter:usize) -> usize {
     let amount = 2;
     let mut output = grid.clone();
@@ -45,20 +48,12 @@ fn solve((line,grid):&Input,iter:usize) -> usize {
     let amount = 1;
     for offset in (1..=iter).step_by(1) {
         output = Matrix::from_fn(output.rows()+amount*2,output.cols()+amount*2,|col,row|{
-            let row = row - amount;
-            let col = col - amount;
             let array = [
-                (row-1 ,col-1 ),
-                (row-1 ,col   ),
-                (row-1 ,col+1 ),
-                (row   ,col-1 ),
-                (row   ,col   ),
-                (row   ,col+1 ),
-                (row+1 ,col-1 ),
-                (row+1 ,col   ),
-                (row+1 ,col+1 ),
-            ].into_iter()
+                (0,0), (0,1), (0,2), (1,0), (1,1), (1,2), (2,0), (2,1), (2,2),
+            ].iter()
                 .map(|(a,b)|{
+                    let a = row-amount+a-1;
+                    let b = col-amount+b-1;
                     let c = a<2 || b<2 || a>=output.rows() || b>=output.cols();
                     (c && line[0] && offset%2 == 0 && !line[511]) || (!c && output[[a,b]])
                 })
@@ -70,7 +65,9 @@ fn solve((line,grid):&Input,iter:usize) -> usize {
     }
     return output.iter().filter(|x|**x).count()
 }
-fn show(m:&Matrix<bool>){
+
+#[allow(dead_code)]
+pub fn show(m:&Matrix<bool>){
     m.row_iter().for_each(|row|{
         row.iter().for_each(|x|{
             if *x{

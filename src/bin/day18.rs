@@ -11,6 +11,8 @@ aoc_harness::aoc_main!(2021 day 18, generator parse_input,
     part2 [solve2] ,
     example part1 SAMPLE => 143,
     example part1 SAMPLE1 => 1384,
+    example part1 SAMPLE10 => 1384,
+    example part1 SAMPLE12 => 4230,
 
     example part1 SAMPLE15 => 4140,
     example part2 SAMPLE15 => 3993,
@@ -38,7 +40,7 @@ fn parse_input(input: &str) -> Input {
                 ',' => {},
                 _ => {
                     fish.push(Fish{val:c as I - 48,depth});
-                    fish.push(Fish{val:0,depth:-1});
+                    //fish.push(Fish{val:c as I - 48,depth:-1});
                 }
             }
         });
@@ -55,7 +57,9 @@ fn step( line: &mut Line ) -> Option<bool> {
         //println!("explode {:?}",i);
         if i>0 {
             let mut j = i -1;
-            while line[j].depth < 0 { j-=1; }
+            while line[j].depth < 0 {
+                j-=1;
+            }
             line[j]=Fish{val:line[j].val + val,depth:line[j].depth};
         }
         flag = true;
@@ -128,7 +132,7 @@ fn solve1(input:&Input) -> I {
         accum.retain(|Fish{val:_,depth}|*depth >0);
         accum
     }).unwrap();
-    //fin.retain(|Fish{val:_,depth}|*depth >0);
+    fin.retain(|Fish{val:_,depth}|*depth >0);
     return score(&mut fin)
 }
 fn score(line:&mut [Fish]) -> isize {
@@ -137,8 +141,7 @@ fn score(line:&mut [Fish]) -> isize {
         for left in 0..line.len(){
             if line[left].depth == depth {
                 let mut right = left + 1;
-                while right <line.len() && line[right].depth <= 0 { right += 1; }
-                if right >= line.len() {break;}
+                while line[right].depth <= 0 { right += 1; }
                 line[left].val = line[left].val *3 + line[right].val *2;
                 line[left].depth -= 1;
                 line[right].depth = 0;
@@ -158,9 +161,7 @@ pub const SAMPLE10: &str = "
 [[[[4,3],4],4],[7,[[8,4],9]]]
 [1,1]
 ";
-pub const SAMPLE11: &str = "[[[[[9,8],1],2],3],4]";
-
-pub const SAMPLE12: &str = 
+pub const SAMPLE12: &str =
 "[1,2]
 [[1,2],3]
 [9,[8,7]]

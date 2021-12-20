@@ -3,7 +3,7 @@ use text_io::scan;
 //use std::collections::HashMap;
 use itertools::Itertools;
 //use rayon::prelude::*;
-use packed_simd::*;
+//use packed_simd::*;
 // use ndarray::prelude::*;
 
 aoc_harness::aoc_main!(2021 day 14, generator parse_input,
