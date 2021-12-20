@@ -122,40 +122,37 @@ fn solve(a:&Scan,b:&Scan) -> Option<Matrix<I>> {
     res_stable.sort_unstable();
     res_stable.dedup();
 
-    if res_stable.len() < 12 {
+    if res_stable.len() < 6 {
         return None
     }
-    res_stable = res_stable.iter().rev().take(12).copied().collect();
+    res_stable = res_stable.iter().rev().take(5).copied().collect();
 
-    let mut tempa2 : Vec<Vec<I>> = Vec::new();
-    let mut tempa :  Vec<Vec<I>> = Vec::new();
-    let mut tempb2 : Vec<Vec<I>> = Vec::new();
-    let mut tempb :  Vec<Vec<I>> = Vec::new();
+    let mut tempa2 : Vec<I> = Vec::new();
+    let mut tempa :  Vec<f64> = Vec::new();
+    let mut tempb2 : Vec<I> = Vec::new();
+    let mut tempb :  Vec<f64> = Vec::new();
     res_stable.iter().for_each(|val|{
         let x = a.row(*a_map.get(val).unwrap() as usize %a.rows()).into_matrix();
         let y = a.row(*a_map.get(val).unwrap() as usize /a.rows()).into_matrix();
-        tempa2.push(x.iter().copied().collect());
-        tempa2.push(y.iter().copied().collect());
-        tempa.push((x + &y)
-                .iter().copied().collect::<Vec<I>>());
+        tempa2.extend(x.iter());
+        tempa2.extend(y.iter());
+        tempa.extend((x + &y)
+                .iter().map(|x|*x as f64).collect::<Vec<_>>());
 
         let x = b.row(*b_map.get(val).unwrap() as usize %b.rows()).into_matrix();
         let y = b.row(*b_map.get(val).unwrap() as usize /b.rows()).into_matrix();
-        tempb2.push(x.iter().copied().collect());
-        tempb2.push(y.iter().copied().collect());
-        tempb.push((x + &y)
-                .iter().copied().collect::<Vec<I>>());
+        tempb2.extend(x.iter());
+        tempb2.extend(y.iter());
+        tempb.extend((x + &y)
+                .iter().map(|x|*x as f64).collect::<Vec<_>>());
     });
 
-    let mat_a = Matrix::new(tempa.len(),4,tempa.into_iter().flatten()
-        .map(|x|x as f64 / 2.0)
-        .collect::<Vec<_>>());
-    let mat_b = Matrix::new(tempb.len(),4,tempb.into_iter().flatten()
-        .map(|x|x as f64 / 2.0)
-        .collect::<Vec<_>>());
+    let mat_a = Matrix::new(tempa.len()/4,4,tempa);
+    let mat_b = Matrix::new(tempb.len()/4,4,tempb.clone());
 
     // The actual work
     let x = mat_a.transpose() * &mat_a;
+    //println!("{}",x);
     let c = x.inverse().unwrap();
     let d = (c.clone() * mat_a.transpose()) * mat_b.clone();
 
@@ -164,17 +161,14 @@ fn solve(a:&Scan,b:&Scan) -> Option<Matrix<I>> {
     });
 
     // Check our work
-    let mat_a = Matrix::new(tempa2.len(),4,tempa2.into_iter().flatten()
-        .collect::<Vec<_>>());
-    let mat_b = Matrix::new(tempb2.len(),4,tempb2.into_iter().flatten()
-        .collect::<Vec<_>>());
-    let ret = mat_a.clone() * x.clone();
+    let mat_a = Matrix::new(tempa2.len()/4,4,tempa2);
+    let ret = mat_a * x.clone();
     for i in 0..ret.rows() {
-        if ret[[i,0]] != mat_b[[i&0xFFFE,0]] && ret[[i,0]] != mat_b[[i&0xFFFE | 1,0]]  {
+        if ret[[i,0]] != tempb2[(i&0xFFFE) *4] && ret[[i,0]] != tempb2[(i&0xFFFE |1) *4]  {
+        //if ret[[i,0]] != mat_b[[i&0xFFFE,0]] && ret[[i,0]] != mat_b[[i&0xFFFE | 1,0]]  {
             return None
         }
     }
-
     return Some(x)
 }
 
