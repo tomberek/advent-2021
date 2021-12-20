@@ -1,15 +1,18 @@
 use itertools::Itertools;
 use rayon::prelude::*;
 //use std::collections::VecDeque;
+// use fingertrees::measure::Size;
+// use fingertrees::monoid::Sum;
+// use fingertrees::{FingerTree, Measured, RcRefs};
+
 
 aoc_harness::aoc_main!(2021 day 18, generator parse_input,
     part1 [solve1] => 3935,
     part2 [solve2] ,
     example part1 SAMPLE => 143,
     example part1 SAMPLE1 => 1384,
-    // example part2 SAMPLE0 => 112,
-    example part1 SAMPLE15 => 4140,
 
+    example part1 SAMPLE15 => 4140,
     example part2 SAMPLE15 => 3993,
     );
 
@@ -35,6 +38,7 @@ fn parse_input(input: &str) -> Input {
                 ',' => {},
                 _ => {
                     fish.push(Fish{val:c as I - 48,depth});
+                    fish.push(Fish{val:0,depth:-1});
                 }
             }
         });
@@ -42,22 +46,54 @@ fn parse_input(input: &str) -> Input {
     });
     return output
 }
-fn step( line: &mut Line ) -> Option<Line> {
-    if let Some((i,&Fish{val,depth})) = line.iter().enumerate().find(|(_,Fish{val:_,depth})|*depth >4) {
+fn step( line: &mut Line ) -> Option<bool> {
+    let mut flag = false;
+    for i in 0.. {
+        if i >= line.len() {break}
+        if line[i].depth <= 4 { continue; }
+        let Fish{val,depth} = line[i];
         //println!("explode {:?}",i);
-        if i > 0 {
-            line[i-1]=Fish{val:line[i-1].val + val,depth:line[i-1].depth};
+        if i>0 {
+            let mut j = i -1;
+            while line[j].depth < 0 { j-=1; }
+            line[j]=Fish{val:line[j].val + val,depth:line[j].depth};
         }
-        if i+2 < line.len() {
-            line[i+2]=Fish{val:line[i+2].val+line[i+1].val,depth:line[i+2].depth};
-        }
+        flag = true;
         line[i]=Fish{val:0,depth:depth-1};
-        line[i+1]=Fish{val:0,depth:-1};
-        return Some(line.iter().filter(|Fish{val:_,depth}|*depth >=0).copied().collect())
+        let mut j1 = i + 1;
+        let mut linej1 : I = 0;
+        loop {
+            if j1 >= line.len(){ break; }
+            if line[j1].depth >= 0 {
+                linej1 = line[j1].val;
+                line[j1]=Fish{val:0,depth:-1};
+                break;
+            }
+            j1+=1;
+        }
+        let mut j2 = j1 + 1;
+        loop {
+            if j2 >= line.len(){ break; }
+            if line[j2].depth >= 0 {
+                line[j2]=Fish{val:line[j2].val+linej1,depth:line[j2].depth};
+                break;
+            }
+            j2+=1;
+        }
     }
-    if let Some((i,&Fish{val,depth})) = line.iter().enumerate().find(|(_,Fish{val,depth:_})|*val >=10) {
-        //println!("split {:?}",i);
+    for i in 0.. {
+        if i >= line.len() {break}
+        if line[i].val < 10 { continue; }
+        let Fish{val,depth} = line[i];
+
+        if i+1 < line.len() && line[i+1].depth == -1 {
+            line[i]=Fish{val:val/2,depth:depth+1};
+            line[i+1]=Fish{val:(val+1)/2,depth:depth+1};
+            //println!("optim {:?}",i);
+            return Some(true)
+        }
         let post = line.split_off(i);
+
         line.extend(
             [Fish{val:val/2,depth:depth+1},
             Fish{val:(val+1)/2,depth:depth+1}]
@@ -65,9 +101,9 @@ fn step( line: &mut Line ) -> Option<Line> {
         let mut l = post.iter();
         l.next();
         line.extend(l);
-        return Some(line.to_vec())
+        return Some(true)
     }
-    None
+    return flag.then(||true)
 }
 fn add(input: &Line,input2: &Line) -> Line {
     input.iter().chain(input2.iter()).map(|&Fish{val,depth}|Fish{val:val,depth:depth+1}).collect()
@@ -77,12 +113,9 @@ fn solve2(input:&Input) -> I {
     let it = input.iter().cartesian_product(input.iter()).collect::<Vec<_>>();
     it.par_iter().map(|(a,b)|{
         let mut accum = add(a,b);
-        loop {
-            //println!("{:?}\n",accum);
-            if let Some(l) = step(&mut accum) {
-                accum = l;
-            } else { break; }
+        while let Some(_)=step(&mut accum){
         }
+        accum.retain(|Fish{val:_,depth}|*depth >0);
         score(&mut accum)
     }).max().unwrap()
 }
@@ -90,14 +123,12 @@ fn solve1(input:&Input) -> I {
     let input = input.clone();
     let mut fin = input.into_iter().reduce(|mut accum,item|{
         accum = add(&mut accum,&item);
-        loop {
-            //println!("{:?}\n",accum);
-            if let Some(l) = step(&mut accum) {
-                accum = l;
-            } else { break; }
+        while let Some(_)=step(&mut accum){
         }
+        accum.retain(|Fish{val:_,depth}|*depth >0);
         accum
     }).unwrap();
+    //fin.retain(|Fish{val:_,depth}|*depth >0);
     return score(&mut fin)
 }
 fn score(line:&mut [Fish]) -> isize {
@@ -106,13 +137,11 @@ fn score(line:&mut [Fish]) -> isize {
         for left in 0..line.len(){
             if line[left].depth == depth {
                 let mut right = left + 1;
-                while line[right].depth == 0 {
-                    right += 1;
-                }
+                while right <line.len() && line[right].depth <= 0 { right += 1; }
+                if right >= line.len() {break;}
                 line[left].val = line[left].val *3 + line[right].val *2;
                 line[left].depth -= 1;
                 line[right].depth = 0;
-
             }
         }
     }
