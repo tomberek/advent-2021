@@ -27,6 +27,8 @@ num = {version = "0.1.36", default-features = false }
 rand = "0.8.4"
 lazy_static = "*"
 nalgebra = "0.29.0"
+eyros = "*"
+futures = "*"
 
 [profile.release]
 rustflags = ["-C", "target-feature=+crt-static"]
